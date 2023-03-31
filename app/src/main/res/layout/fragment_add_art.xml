@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.AddArtFragment"
+    tools:layout_editor_absoluteY="81dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="18dp"
+        android:text="Add New Art From Gallery"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/AddArtImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/AddArtNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:ems="10"
+        android:hint="Enter The Art Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/AddArtImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/AddArtistNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Enter The Artist Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/AddArtNameText"
+        app:layout_constraintTop_toBottomOf="@+id/AddArtNameText" />
+
+    <EditText
+        android:id="@+id/AddArtDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Enter The Art Date"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/AddArtistNameText"
+        app:layout_constraintTop_toBottomOf="@+id/AddArtistNameText" />
+
+    <Button
+        android:id="@+id/ArtDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="ArtDeleteButtonOnClick"
+        android:text="Delete"
+        app:layout_constraintBottom_toTopOf="@+id/AdArtSaveButton"
+        app:layout_constraintEnd_toStartOf="@+id/artChangeButton"
+        app:layout_constraintTop_toBottomOf="@+id/AddArtDateText" />
+
+    <Button
+        android:id="@+id/artChangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="artChangeButtonOnClick"
+        android:text="Change"
+        app:layout_constraintBottom_toBottomOf="@+id/ArtDeleteButton"
+        app:layout_constraintEnd_toEndOf="@+id/AddArtDateText"
+        app:layout_constraintTop_toBottomOf="@+id/AddArtDateText"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/AdArtSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="76dp"
+        android:onClick="AddArtSaveButton"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.328"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ArtDeleteButton" />
+
+    <ImageView
+        android:id="@+id/AddArtImage"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="21dp"
+        android:onClick="AddArtImageOnclick"
+        android:src="@drawable/select_image"
+        app:layout_constraintBottom_toTopOf="@+id/AddArtNameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:src="@drawable/select_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
