@@ -2,7 +2,9 @@ package com.emresahin.artbooknav.View;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -79,11 +81,8 @@ public class AddArtFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText addArtNameText =  view.findViewById(R.id.AddArtNameText);
-        EditText addArtistNameText =  view.findViewById(R.id.AddArtistNameText);
-        EditText addArtDateText = view.findViewById(R.id.AddArtDateText);
-        Button saveButton =  view.findViewById(R.id.AdArtSaveButton);
-        Button changeButton = view.findViewById(R.id.artChangeButton);
+        Button saveButton =  binding.AdArtSaveButton;
+        Button changeButton = binding.artChangeButton;
 
         if(getArguments() != null) {
             info = AddArtFragmentArgs.fromBundle(getArguments()).getInfo();
@@ -117,36 +116,10 @@ public class AddArtFragment extends Fragment{
             changeButton.setVisibility(View.GONE);
             saveButton.setEnabled(false);
 
-           TextWatcher textWatcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    isEmpty = addArtNameText.getText().toString().isEmpty() ||
-                            addArtistNameText.getText().toString().isEmpty() ||
-                            addArtDateText.getText().toString().isEmpty();
-
-                    if (isEmpty) {
-                        saveButton.setEnabled(false);
-                    }else{
-                        saveButton.setEnabled(true);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            };
+            textListener();
 
             binding.ArtDeleteButton.setVisibility(View.GONE);
             binding.AddArtImage.setImageResource(R.drawable.select_image);
-
-            addArtNameText.addTextChangedListener(textWatcher);
-            addArtistNameText.addTextChangedListener(textWatcher);
-            addArtDateText.addTextChangedListener(textWatcher);
-
 
         } else {
             changeButton.setEnabled(false);
@@ -262,21 +235,17 @@ public class AddArtFragment extends Fragment{
     }
 
     public void ArtDeleteButtonOnClick(View view){
-        try {
-            int artId = AddArtFragmentArgs.fromBundle(getArguments()).getArtId();
-
-            String delete = "DELETE FROM artsDB WHERE id = ?";
-            SQLiteStatement sqLiteStatement = database.compileStatement(delete);
-            sqLiteStatement.bindString(1,String.valueOf(artId));
-            sqLiteStatement.execute();
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        NavDirections action = AddArtFragmentDirections.actionAddArtFragmentToGalleryFragment();
-        Navigation.findNavController(requireActivity(),R.id.fragment).navigate(action);
-       database.close();
+        AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
+        alert.setTitle("Art Book Navigation");
+        alert.setMessage("This Content will be deleted, are you sure about that?");
+        alert.setNegativeButton("Keep",null);
+        alert.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteFunction();
+            }
+        });
+        alert.show();
     }
 
 
@@ -336,5 +305,56 @@ public class AddArtFragment extends Fragment{
                 }
             }
         });
+    }
+    public void textListener(){
+
+        EditText addArtNameText =  binding.AddArtNameText;
+        EditText addArtistNameText =  binding.AddArtistNameText;
+        EditText addArtDateText = binding.AddArtDateText;
+        Button saveButton =  binding.AdArtSaveButton;
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                isEmpty = addArtNameText.getText().toString().isEmpty() ||
+                        addArtistNameText.getText().toString().isEmpty() ||
+                        addArtDateText.getText().toString().isEmpty();
+
+                if (isEmpty) {
+                    saveButton.setEnabled(false);
+                }else{
+                    saveButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+
+        addArtNameText.addTextChangedListener(textWatcher);
+        addArtistNameText.addTextChangedListener(textWatcher);
+        addArtDateText.addTextChangedListener(textWatcher);
+
+    }
+    public void deleteFunction(){
+        try {
+            int artId = AddArtFragmentArgs.fromBundle(getArguments()).getArtId();
+
+            String delete = "DELETE FROM artsDB WHERE id = ?";
+            SQLiteStatement sqLiteStatement = database.compileStatement(delete);
+            sqLiteStatement.bindString(1,String.valueOf(artId));
+            sqLiteStatement.execute();
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        NavDirections action = AddArtFragmentDirections.actionAddArtFragmentToGalleryFragment();
+        Navigation.findNavController(requireActivity(),R.id.fragment).navigate(action);
+        database.close();
     }
 }
